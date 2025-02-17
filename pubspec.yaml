@@ -1,0 +1,39 @@
+name: friendlywar
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.6.1
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  #flutter redux
+  flutter_redux:
+  redux:
+  redux_thunk:
+
+  #tools
+  flutter_dotenv:
+  dotenv:
+  flutter_dev_tools:
+
+  #API calling dependencies
+  http:
+  dio:
+  sse_client: ^0.1.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env
+    - assets/images/stone-cover.jpg
+    - assets/images/avatar1.jpg
+    - assets/images/avatar2.jpg
