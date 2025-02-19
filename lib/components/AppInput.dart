@@ -6,8 +6,15 @@ class AppInput extends StatelessWidget {
   final Icon? prefixIcon;
   final Icon? suffixIcon;
   final String? error;
+  dynamic onChange;
 
-  AppInput({required this.hintText, required this.controller, this.prefixIcon, this.suffixIcon, this.error});
+  AppInput(
+      {required this.hintText,
+      required this.controller,
+      this.prefixIcon,
+      this.suffixIcon,
+      this.error,
+      this.onChange});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +22,7 @@ class AppInput extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.9,
       child: TextField(
         controller: controller,
+        onChanged: onChange,
         decoration: InputDecoration(
           prefix: prefixIcon,
           hintText: hintText,

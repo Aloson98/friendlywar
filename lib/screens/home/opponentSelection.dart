@@ -45,6 +45,7 @@ void showOpponentSelectionDialog(BuildContext context) {
                       hintText: 'Opponent Username',
                       controller: _controller,
                       error: _errorMessage.isNotEmpty ? _errorMessage : null,
+                      onChange: (value) => validateUser(),
                     ),
                     SizedBox(height: 10),
                     if (_isValidUser)
@@ -65,7 +66,10 @@ void showOpponentSelectionDialog(BuildContext context) {
                   ],
                 ),
                 actions: [
-                  AppButton(text: 'Cancel', onPressed: () => Navigator.pop(context),)
+                  AppButton(
+                    text: 'Cancel',
+                    onPressed: () => Navigator.pop(context),
+                  )
                 ],
               );
             },
@@ -75,4 +79,3 @@ void showOpponentSelectionDialog(BuildContext context) {
     },
   );
 }
-
