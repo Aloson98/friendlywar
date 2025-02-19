@@ -27,6 +27,7 @@ class MainApp extends StatelessWidget {
     return StoreProvider(
       store: store,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: {
           "/": (context) => Welcome(),

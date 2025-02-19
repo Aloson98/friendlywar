@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:friendlywar/components/AppInput.dart';
+import 'package:friendlywar/components/appButton.dart';
 import 'package:friendlywar/store/app.state.dart';
 import 'package:friendlywar/store/friend/friend.state.dart';
 
@@ -39,34 +41,31 @@ void showOpponentSelectionDialog(BuildContext context) {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    TextField(
+                    AppInput(
+                      hintText: 'Opponent Username',
                       controller: _controller,
-                      decoration: InputDecoration(
-                        labelText: 'Opponent Username',
-                        errorText:
-                            _errorMessage.isNotEmpty ? _errorMessage : null,
-                      ),
-                      onChanged: (value) => validateUser(),
+                      error: _errorMessage.isNotEmpty ? _errorMessage : null,
                     ),
                     SizedBox(height: 10),
                     if (_isValidUser)
-                      ElevatedButton(
+                      AppButton(
+                        text: 'Proceed to Play',
                         onPressed: () {
                           Navigator.pop(context);
-                          Navigator.pushNamed(context, '/play', arguments: {
-                            "opponent": friendState.users.where(
-                                (item) => item["username"] == _controller.text)
-                          });
+                          Navigator.pushNamed(
+                            context,
+                            '/play',
+                            arguments: {
+                              "opponent": friendState.users.where((item) =>
+                                  item["username"] == _controller.text)
+                            },
+                          );
                         },
-                        child: Text('Proceed to Play'),
                       ),
                   ],
                 ),
                 actions: [
-                  TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text('Cancel'),
-                  ),
+                  AppButton(text: 'Cancel', onPressed: () => Navigator.pop(context),)
                 ],
               );
             },
@@ -76,3 +75,4 @@ void showOpponentSelectionDialog(BuildContext context) {
     },
   );
 }
+

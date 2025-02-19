@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:friendlywar/components/AppColors.dart';
+import 'package:friendlywar/components/AppInput.dart';
+import 'package:friendlywar/components/AppText.dart';
+import 'package:friendlywar/components/AppButton.dart';
 import 'package:friendlywar/store/app.state.dart';
 import 'package:friendlywar/store/friend/friend.action.dart';
 import 'package:friendlywar/store/friend/friend.state.dart';
@@ -19,83 +23,98 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Login',
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Username',
-                border: OutlineInputBorder(),
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                opacity: 0.5,
+                image: AssetImage('assets/images/BG.jpg'),
+                fit: BoxFit.cover,
               ),
-              controller: _usernameController,
             ),
-            SizedBox(height: 10),
-            TextField(
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                border: OutlineInputBorder(),
-              ),
-              controller: _passwordController,
-            ),
-            SizedBox(height: 20),
-            StoreConnector<AppState, FriendState>(
-              converter: (store) => store.state.friendState,
-              builder: (context, friendState) {
-                return SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Handle login action
-                      StoreProvider.of<AppState>(context).dispatch(
-                          AuthenticationAction(
-                              username: _usernameController.text,
-                              password: _passwordController.text));
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: Colors.grey,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 10,
+                ),
+                Card(
+                  color: Colors.transparent,
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  margin: EdgeInsets.only(top: 10, left: 20),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.8,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                    child: Text(
-                      'Login',
-                      style: TextStyle(fontSize: 18),
+                    height: MediaQuery.of(context).size.width * 0.8,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.asset(
+                        'assets/images/Authentication.png',
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
-                );
-              },
-              onDidChange: (previous, current) {
-                if (!_loggedIn &&
-                    current.loading == false &&
-                    current.token.isNotEmpty &&
-                    current.token != "") {
-                  //navigating to the next page
-                  setState(() {
-                    _loggedIn = true;
-                  });
-                  Navigator.pushNamed(context, '/home');
-                }
-                ;
-              },
+                ),
+                TitleText(text: 'Login'),
+                SizedBox(height: 20),
+                AppInput(
+                  hintText: 'Username',
+                  controller: _usernameController,
+                ),
+                SizedBox(height: 20),
+                AppInput(
+                  hintText: 'Password',
+                  controller: _passwordController,
+                ),
+                SizedBox(height: 10),
+                TextButton(
+                  onPressed: () {},
+                  child: ParagraphText(
+                    text: 'Don’t have an account? Create one',
+                  ),
+                ),
+                Spacer(),
+                StoreConnector<AppState, FriendState>(
+                  converter: (store) => store.state.friendState,
+                  builder: (context, friendState) {
+                    return AppButton(
+                      text: "Login",
+                      onPressed: () {
+                        // Handle login action
+                        StoreProvider.of<AppState>(context).dispatch(
+                            AuthenticationAction(
+                                username: _usernameController.text,
+                                password: _passwordController.text));
+                      },
+                    );
+                  },
+                  onDidChange: (previous, current) {
+                    if (!_loggedIn &&
+                        current.loading == false &&
+                        current.token.isNotEmpty &&
+                        current.token != "") {
+                      //navigating to the next page
+                      setState(() {
+                        _loggedIn = true;
+                      });
+                      Navigator.pushNamed(context, '/home');
+                    }
+                  },
+                ),
+                SizedBox(height: 10),
+              ],
             ),
-            SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                // Navigate to account creation screen
-              },
-              child: Text("Don’t have an account? Create one"),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
