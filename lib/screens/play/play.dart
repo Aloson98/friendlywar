@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:friendlywar/components/AppColors.dart';
+import 'package:friendlywar/components/AppText.dart';
 import 'package:friendlywar/store/app.state.dart';
 import 'package:friendlywar/store/friend/friend.action.dart';
 import 'package:friendlywar/store/friend/friend.state.dart';
@@ -69,17 +71,23 @@ class _PlayScreenState extends State<PlayScreen> {
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildPlayerInfo(
-                      homeUsername, 'assets/images/avatar1.jpg', homeWin),
-                  Text('VS',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-                  _buildPlayerInfo(opponentUserName,
-                      'assets/images/avatar2.jpg', opponentWin),
-                ],
+              Card(
+                color: Colors.grey[200],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildPlayerInfo(
+                          homeUsername, 'assets/images/avatar1.jpg', homeWin),
+                      Text('VS',
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold)),
+                      _buildPlayerInfo(opponentUserName,
+                          'assets/images/avatar2.jpg', opponentWin),
+                    ],
+                  ),
+                ),
               ),
               SizedBox(height: 50),
               _buildLoseMatchButton(context, opponentUserName),
@@ -98,8 +106,11 @@ class _PlayScreenState extends State<PlayScreen> {
         Text(username,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         SizedBox(height: 5),
-        Text('Wins: $wins',
-            style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+        Text(
+          "$wins",
+          style: TextStyle(fontSize: 40, color: AppColors.primaryColor),
+        ),
+        ParagraphText(text: 'Wins'),
       ],
     );
   }

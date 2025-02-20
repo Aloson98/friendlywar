@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:friendlywar/screens/home/home.dart';
 import 'package:friendlywar/screens/login.dart';
 import 'package:friendlywar/screens/play/play.dart';
+import 'package:friendlywar/screens/scoreBoard/login2.dart';
 import 'package:friendlywar/screens/scoreBoard/score_board.dart';
 import 'package:friendlywar/screens/welcome.dart';
 import 'package:friendlywar/store/app.middleware.dart';

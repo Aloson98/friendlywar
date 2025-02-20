@@ -47,7 +47,6 @@ void showOpponentSelectionDialog(BuildContext context) {
                       error: _errorMessage.isNotEmpty ? _errorMessage : null,
                       onChange: (value) => validateUser(),
                     ),
-                    SizedBox(height: 10),
                     if (_isValidUser)
                       AppButton(
                         text: 'Proceed to Play',

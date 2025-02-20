@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:friendlywar/components/AppColors.dart';
-import 'package:friendlywar/components/AppDialog.dart';
-import 'package:friendlywar/components/AppInput.dart';
 import 'package:friendlywar/components/AppText.dart';
 import 'package:friendlywar/components/appButton.dart';
 import 'package:friendlywar/screens/home/opponentSelection.dart';
@@ -29,7 +27,7 @@ class HomeScreen extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.logout),
                     onPressed: () {
-                      // Handle logout action
+                      _showLogoutDialog(context);
                     },
                   ),
                 ],
@@ -45,97 +43,140 @@ class HomeScreen extends StatelessWidget {
               .length;
 
           return Scaffold(
-            extendBodyBehindAppBar: true,
-            appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              centerTitle: true,
-              title: Text('Home'),
-            ),
-            body: Stack(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      opacity: 0.5,
-                      image: AssetImage('assets/images/BG.jpg'),
-                      fit: BoxFit.cover,
-                    ),
+              extendBodyBehindAppBar: true,
+              appBar: AppBar(
+                leading: IconButton(
+                  onPressed: () {
+                    _showLogoutDialog(context);
+                  },
+                  icon: Icon(
+                    Icons.logout,
+                    color: Colors.red,
                   ),
                 ),
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        SizedBox(),
-                        Spacer(),
-                        Card(
-                          color: Colors.transparent,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          margin: EdgeInsets.only(top: 10, left: 20),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * 0.8,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                centerTitle: true,
+                title: Text('Home'),
+              ),
+              body: SafeArea(
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    return SingleChildScrollView(
+                      child: Stack(
+                        children: [
+                          Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            height: MediaQuery.of(context).size.width * 0.8,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.asset(
-                                'assets/images/playing.png',
+                              image: DecorationImage(
+                                image: AssetImage('assets/images/BG.jpg'),
+                                opacity: 0.5,
                                 fit: BoxFit.cover,
                               ),
                             ),
+                            height: constraints.maxHeight,
+                            width: constraints.maxWidth,
                           ),
-                        ),
-                        TitleText(text: 'Welcome, $username!'),
-                        Text(
-                          "$wins",
-                          style: TextStyle(
-                              fontSize: 70,
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.buttonColor),
-                        ),
-                        ParagraphText(
-                          text: 'Matches Won',
-                          color: AppColors.primaryColor,
-                        ),
-                        Spacer(
-                          flex: 3,
-                        ),
-                        Column(
-                          children: [
-                            AppButton(
-                              text: 'Play',
-                              onPressed: () {
-                                showOpponentSelectionDialog(context);
-                              },
+                          SafeArea(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Card(
+                                    color: Colors.transparent,
+                                    elevation: 0,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    margin: EdgeInsets.only(top: 10, left: 20),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width *
+                                          0.8,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      height:
+                                          MediaQuery.of(context).size.width *
+                                              0.8,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.asset(
+                                          'assets/images/playing.png',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  TitleText(text: 'Welcome, $username!'),
+                                  Text(
+                                    "$wins",
+                                    style: TextStyle(
+                                        fontSize: 70,
+                                        fontWeight: FontWeight.bold,
+                                        color: AppColors.buttonColor),
+                                  ),
+                                  ParagraphText(
+                                    text: 'Matches Won',
+                                    color: AppColors.primaryColor,
+                                  ),
+                                  Column(
+                                    children: [
+                                      AppButton(
+                                        text: 'Play',
+                                        onPressed: () {
+                                          showOpponentSelectionDialog(context);
+                                        },
+                                      ),
+                                      AppButton(
+                                        text: 'ScoreBoard',
+                                        onPressed: () {
+                                          // Handle scoreboard button action
+                                          Navigator.pushNamed(
+                                              context, "/scoreboard");
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                            SizedBox(height: 10),
-                            AppButton(
-                              text: 'ScoreBoard',
-                              onPressed: () {
-                                // Handle scoreboard button action
-                                Navigator.pushNamed(context, "/scoreboard");
-                              },
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                      ],
-                    ),
-                  ),
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
-              ],
-            ),
-          );
+              ));
         });
+  }
+
+  void _showLogoutDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Logout'),
+          content: Text('Are you sure you want to logout?'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Cancel'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: Text('Logout'),
+              onPressed: () {
+                // Handle logout action
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
 

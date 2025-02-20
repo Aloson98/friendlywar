@@ -18,17 +18,20 @@ class AppInput extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width * 0.9,
-      child: TextField(
-        controller: controller,
-        onChanged: onChange,
-        decoration: InputDecoration(
-          prefix: prefixIcon,
-          hintText: hintText,
-          errorText: error,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(16),
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: 10),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.9,
+        child: TextField(
+          controller: controller,
+          onChanged: onChange,
+          decoration: InputDecoration(
+            prefix: prefixIcon,
+            hintText: hintText,
+            errorText: error,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
           ),
         ),
       ),
